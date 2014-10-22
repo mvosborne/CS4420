@@ -4,7 +4,7 @@ import edu.gatech.coc.cs6422.group16.algebraTree.*;
 
 public class PushSelectionDown
 {
-    public static boolean TraverseCartesianProductNode(final SelectNode selNode, RelationalAlgebraTree root)
+    private static boolean TraverseCartesianProductNode(final SelectNode selNode, RelationalAlgebraTree root)
     {
         boolean change = false;
         CartesianProductNode carProdNode = root.getCurrentNodeAs(CartesianProductNode.class);
@@ -66,18 +66,18 @@ public class PushSelectionDown
         cur = root.getChildren().get(0);
         //locate the first SelectNode
         while (cur != null && cur.getCurrentNodeAs(SelectNode.class) == null)
+    {
+        parent = cur;
+        if (cur.getChildCount() > 0)
         {
-            parent = cur;
-            if (cur.getChildCount() > 0)
-            {
-                cur = parent.getChildren().get(0);
-            }
-            else
-            {
-                // no SelectNode found!
-                return;
-            }
+            cur = parent.getChildren().get(0);
         }
+        else
+        {
+            // no SelectNode found!
+            return;
+        }
+    }
         //traverse the following SelectNode, for each of them, check if push-down is available
         while (cur != null && cur.getCurrentNodeAs(SelectNode.class) != null)
         {

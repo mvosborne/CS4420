@@ -5,6 +5,7 @@ import edu.gatech.coc.cs6422.group16.algebraTree.treeVisualization.SwingRelation
 import edu.gatech.coc.cs6422.group16.executionConfiguration.ExecutionConfig;
 import edu.gatech.coc.cs6422.group16.heuristics.CartesianToJoin;
 import edu.gatech.coc.cs6422.group16.heuristics.PushSelectionDown;
+import edu.gatech.coc.cs6422.group16.heuristics.SelectSmallerTable;
 import edu.gatech.coc.cs6422.group16.metaDataRepository.MetaDataRepository;
 import edu.gatech.coc.cs6422.group16.statistics.Statistics;
 import edu.gatech.coc.cs6422.group16.statistics.TimerType;
@@ -26,6 +27,7 @@ public abstract class ProcessQueryCommand implements ICommandLineObject
                 for (RelationalAlgebraTree singleTree : trees)
                 {
                     PushSelectionDown.pushSelectionDown(singleTree);
+                    SelectSmallerTable.switchSmallerSelection(singleTree);
                     CartesianToJoin.cartesianToJoin(singleTree);
                 }
                 stat.stop(TimerType.OPTIMIZATION);
