@@ -1,9 +1,10 @@
-* From Bit Bucket account, to view project from index.html go to 
-	/dist
-		index.html
+* From Bit Bucket, pull from your terminal and use grunt to view, simply clone repo, 
+	cd into directory "BackbaseWeatherApp" 
+	run npm install
+	run bower install
+	"grunt serve" to view localhost:9000.
 
-And open. If you want to pull from your terminal and use grunt to view, simply clone repo, cd into directory "BackbaseWeatherApp" and "grunt serve" to view localhost:9000. 
-
+* I was having grunt build errors and project was not compiling correctly so I could not create version with index.html working, it only works when you run with grunt serve.  
 
 * FYI: I am currently in yoga teacher training so Saturday and Sunday I was in class from 1pm-6pm and didn't have as much time as I'd have liked to add more functionality and formatting.
 

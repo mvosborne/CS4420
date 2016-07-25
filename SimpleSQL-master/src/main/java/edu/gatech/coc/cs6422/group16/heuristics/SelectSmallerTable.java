@@ -2,8 +2,11 @@ package edu.gatech.coc.cs6422.group16.heuristics;
 
 import edu.gatech.coc.cs6422.group16.algebraTree.*;
 
-public class PushSelectionDown
-{
+/**
+ * Created by MargoOsborne on 10/16/14.
+ */
+public class SelectSmallerTable {
+
     private static boolean TraverseCartesianProductNode(final SelectNode selNode, RelationalAlgebraTree root)
     {
         boolean change = false;
@@ -48,7 +51,7 @@ public class PushSelectionDown
         return change || TraverseCartesianProductNode(selNode, c1) || TraverseCartesianProductNode(selNode, c2);
     }
 
-    public static void pushSelectionDown(RelationalAlgebraTree root) throws IllegalArgumentException
+    public static void switchSmallerSelection(RelationalAlgebraTree root) throws IllegalArgumentException
     {
         if (root == null)
         {
@@ -66,22 +69,26 @@ public class PushSelectionDown
         cur = root.getChildren().get(0);
         //locate the first SelectNode
         while (cur != null && cur.getCurrentNodeAs(SelectNode.class) == null)
-    {
-        parent = cur;
-        if (cur.getChildCount() > 0)
         {
-            cur = parent.getChildren().get(0);
+            parent = cur;
+            if (cur.getChildCount() > 0)
+            {
+                cur = parent.getChildren().get(0);
+            }
+            else
+            {
+                // no SelectNode found!
+                return;
+            }
         }
-        else
-        {
-            // no SelectNode found!
-            return;
-        }
-    }
-        //traverse the following SelectNode, for each of them, check if push-down is available
+        //traverse the following SelectNode, for each of them
+        // check if child is selection node
+        // compare size of both
+        // if child size is smaller, then swap them, and redo pointers
+        // else
         while (cur != null && cur.getCurrentNodeAs(SelectNode.class) != null)
         {
-            //from the cur SelectNode, search down till CartesianProductNode is found
+            //from the cur SelectNode, search down till no more SelNode in branch is found AND smallestSize is smallest
             selNode = cur.getCurrentNodeAs(SelectNode.class);
             searchParent = cur;
             searchCur = searchParent.getChildren().get(0);
