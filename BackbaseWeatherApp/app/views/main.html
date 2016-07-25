@@ -1,0 +1,86 @@
+
+
+<div class="row container jumbotron">
+
+  <div class="form-group">
+      <h3>See current weather for:</h3>
+        <!-- if the drop down changes, trigger changeCity function and pass ng-model city value along -->
+       <select class="selectpicker form-control" data-style="btn-primary" ng-change="changeCity()" name="city" ng-model="city">
+          <option value="">City</option>
+          <option value="Berlin">Berlin</option>
+          <option value="Prague">Prague</option>
+          <option value="Brussels">Brussels</option>
+          <option value="Amsterdam">Amsterdam</option>
+          <option value="Paris">Paris</option>
+      </select>
+  </div>
+
+  <!-- Had OpenLayers map displaying but it was in Russian... Not enough time to add in map but really wanted to! -->
+  <!-- <div id="basicMap" style="width: 500px; height: 500px;"></div> -->
+
+  
+  <!-- currently this displays very fast, 
+  but want to show user that app is working even if no data has loaded yet.
+  If had more time, I'd set functionality to only show this after 3 second load time -->
+  <div ng-if="isLoading">
+    Please Wait, Retrieving Weather Data.
+  </div>
+
+<!-- simple error handling, have not tested but know that I should show user feedback if there's an error -->
+  <div ng-if="error">
+    {{status}}
+  </div>
+
+  <!-- only show the data below if there is a city selected 
+      also, hide the information and show loading message if the data is loading, 
+      example when user changes city -->
+  <div ng-if="currWeather" ng-hide="isLoading">
+    <div>
+       <h1>{{currWeather.name}}</h1>
+       <!-- want to add the city's current time and date -->
+       <div>
+         <p>Average Temperature: {{currWeather.main.temp}} ° F</p>
+       </div>
+       
+       <p>Wind Speed: {{currWeather.wind.speed}} mi/hr</p>
+    </div>
+
+    <div>
+      <h3>Looking Ahead...</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <!-- Would like to format dates to be more readable and configure table to be more 
+                  easily readable at a glance, as well
+                  I limited to six because of space the table uses on the page -->
+              <th scope="row"></th>
+              <th ng-repeat='x in nextWeather.list | limitTo: 6 | date : format : short'>{{x.dt_txt}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Description</th>
+              <td ng-repeat='x in nextWeather.list | limitTo: 6'>{{x.weather[0].main}} - {{x.weather[0].description}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Avg Temp</th>
+              <td ng-repeat='x in nextWeather.list | limitTo: 6'>{{x.main.temp}}° F</td>
+            </tr>
+            <tr>
+              <th scope="row">Humidity</th>
+              <td ng-repeat='x in nextWeather.list | limitTo: 6'>{{x.main.humidity}}%</td>
+            </tr>
+            <tr>
+              <th scope="row">Wind Strength</th>
+              <td ng-repeat='x in nextWeather.list | limitTo: 6'>{{x.wind.speed}} mi/hr</td>
+            </tr>
+            
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+
+
+
+</div>
